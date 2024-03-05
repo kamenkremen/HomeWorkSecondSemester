@@ -4,7 +4,7 @@ using System.Dynamic;
 using System.Linq.Expressions;
 Console.WriteLine("List of operations:");
 Console.WriteLine("0 - exit the programm");
-Console.WriteLine("1 - add string to the trie\n2 - check, if the trie contains string");
+Console.WriteLine("1 - add string to the trie");
 Console.WriteLine("2 - checks, if string contained in the trie");
 Console.WriteLine("3 - remove the string from the trie");
 Console.WriteLine("4 - check how many prefixes starts with the string");
