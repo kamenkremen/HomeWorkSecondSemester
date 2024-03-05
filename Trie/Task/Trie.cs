@@ -11,13 +11,8 @@ Console.WriteLine("4 - check how many prefixes starts with the string");
 Console.WriteLine("5 - returns size of the trie");
 bool isWorking = true;
 var trie = new Trie();
-while (true)
+while (isWorking)
 {
-    if (!isWorking)
-    {
-        break;
-    }
-
     Console.WriteLine("Enter number of the operation:");
     var operation = 0;
     if (!int.TryParse(Console.ReadLine(), out operation))
