@@ -21,5 +21,4 @@ public interface IStack
     /// </summary>
     /// <param name="element">Element to add to the stack.</param>
     void Push(float element);
-
 }

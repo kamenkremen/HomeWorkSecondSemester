@@ -2,10 +2,6 @@ namespace Tests;
 using StackCalculator;
 public class Tests
 {
-    [SetUp]
-    public void Setup()
-    {
-    }
     static IEnumerable<(IStack, string, double, bool)> Calculator()
     {
         yield return (new StackLinkedList(), "1 3 5 + *", 5, true);
@@ -34,7 +30,7 @@ public class Tests
 
         catch (Exception)
         {
-            Assert.That(!isCountable, "meant to be failed");
+            Assert.That(!isCountable);
         }
         Assert.Pass();
     }
