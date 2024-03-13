@@ -2,108 +2,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Dynamic;
 using System.Linq.Expressions;
-Console.WriteLine("List of operations:");
-Console.WriteLine("0 - exit the programm");
-Console.WriteLine("1 - add string to the trie");
-Console.WriteLine("2 - checks, if string contained in the trie");
-Console.WriteLine("3 - remove the string from the trie");
-Console.WriteLine("4 - check how many prefixes starts with the string");
-Console.WriteLine("5 - returns size of the trie");
-bool isWorking = true;
-var trie = new Trie();
-while (isWorking)
-{
-    Console.WriteLine("Enter number of the operation:");
-    var operation = 0;
-    if (!int.TryParse(Console.ReadLine(), out operation))
-    {
-        Console.WriteLine("Incorrect input, try again");
-        continue;
-    }
-
-    string? str = string.Empty;
-    switch (operation)
-    {
-        case 0:
-        Console.WriteLine("Farewell");
-        isWorking = false;
-        break;
-        case 1:
-        Console.Write("Enter the string to add:");
-        str = Console.ReadLine();
-        if (str is null)
-        {
-            Console.WriteLine("Incorrect input, try again");
-            break;
-        }
-
-        if (!trie.Add(str))
-        {
-            Console.WriteLine("This string was already in the trie");
-        }
-        else
-        {
-            Console.WriteLine("String succesfully added to the trie");
-        }
-
-        break;
-        case 2:
-        Console.Write("Enter the string to check if contained:");
-        str = Console.ReadLine();
-        if (str is null)
-        {
-            Console.WriteLine("Incorrect input, try again");
-            break;
-        }
-
-        if (!trie.Contains(str))
-        {
-            Console.WriteLine("This string is not contained");
-        }
-        else
-        {
-            Console.WriteLine("This string is contained");
-        }
-
-        break;
-        case 3:
-        Console.Write("Enter the string to remove:");
-        str = Console.ReadLine();
-        if (str is null)
-        {
-            Console.WriteLine("Incorrect input, try again");
-            break;
-        }
-
-        if (!trie.Remove(str))
-        {
-            Console.WriteLine("This string is not contained");
-        }
-        else
-        {
-            Console.WriteLine("String is sucessfully removed");
-        }
-
-        break;
-        case 4:
-        Console.Write("Enter the string to find out how many prefixes starts with it:");
-        str = Console.ReadLine();
-        if (str is null)
-        {
-            Console.WriteLine("Incorrect input, try again");
-            break;
-        }
-
-        Console.WriteLine($"{trie.HowManyStartsWithPrefix(str)} prefixes starts with this string.");
-        break;
-        case 5:
-        Console.WriteLine($"Size of the trie is {trie.Size}");
-        break;
-        default:
-        Console.WriteLine("Incorrect input, try again");
-        break;
-    }
-}
 
 /// <summary>
 /// Trie, tree data structure used for locating specific keys from within a set.
@@ -140,8 +38,31 @@ public class Trie
     /// <returns>True, if string not in trie, false otherwise.</returns>
     public bool Add(string element)
     {
+        if (this.Contains(element))
+        {
+            return false;
+        }
+
+        var node = this.root;
+        int index = 0;
+        ++node.NumberOfPrefixes;
+        for (; index < element.Length && node.Childrens.ContainsKey(element[index]); ++index)
+        {
+            node = node.Childrens[element[index]];
+            ++node.NumberOfPrefixes;
+        }
+
+        for (; index < element.Length; ++index)
+        {
+            var newNode = new Node(element[index]);
+            newNode.NumberOfPrefixes = 1;
+            node.Childrens[element[index]] = newNode;
+            node = newNode;
+        }
+
+        node.IsTerminal = true;
         this.Size += element.Length;
-        return this.Add(0, element, this.root);
+        return true;
     }
 
     /// <summary>
@@ -151,7 +72,18 @@ public class Trie
     /// <returns>Returns true if contained, false otherwise.</returns>
     public bool Contains(string element)
     {
-        return this.Contains(0, element, this.root);
+        var node = this.root;
+        for (int i = 0; i < element.Length; ++i)
+        {
+            if (!node.Childrens.ContainsKey(element[i]))
+            {
+                return false;
+            }
+
+            node = node.Childrens[element[i]];
+        }
+
+        return node.IsTerminal;
     }
 
     /// <summary>
@@ -161,13 +93,32 @@ public class Trie
     /// <returns>Returns true if string is contained, false otherwise.</returns>
     public bool Remove(string element)
     {
-        var returnValue = this.Remove(0, element, this.root);
-        if (returnValue)
+        if (!this.Contains(element))
         {
-            this.Size -= element.Length;
+            return false;
         }
 
-        return returnValue;
+        var node = this.root;
+        for (int i = 0; i < element.Length; ++i)
+        {
+            --node.NumberOfPrefixes;
+
+            if (!node.Childrens.ContainsKey(element[i]))
+            {
+                return false;
+            }
+
+            node = node.Childrens[element[i]];
+        }
+
+        --node.NumberOfPrefixes;
+        if (!node.IsTerminal)
+            {
+                return false;
+            }
+
+        node.IsTerminal = false;
+        return true;
     }
 
     /// <summary>
@@ -177,80 +128,18 @@ public class Trie
     /// <returns>Returns how many strigs in trie start with that prefix.</returns>
     public int HowManyStartsWithPrefix(string prefix)
     {
-        return this.HowManyStartsWithPrefix(0, prefix, this.root);
-    }
-
-    private bool Add(int index, string element, Node node)
-    {
-        ++node.NumberOfPrefixes;
-        if (index == element.Length)
+        var node = this.root;
+        for (int i = 0; i < prefix.Length; ++i)
         {
-            node.IsTerminal = true;
-            return false;
+            if (!node.Childrens.ContainsKey(prefix[i]))
+            {
+                return 0;
+            }
+
+            node = node.Childrens[prefix[i]];
         }
 
-        if (!node.Childrens.ContainsKey(element[index]))
-        {
-            Node newNode = new Node(element[index]);
-            this.Add(index + 1, element, newNode);
-            node.Childrens[element[index]] = newNode;
-            return true;
-        }
-
-        return this.Add(index + 1, element, node.Childrens[element[index]]);
-    }
-
-    private bool Contains(int index, string element, Node node)
-    {
-        if (index == element.Length)
-        {
-            return node.IsTerminal;
-        }
-
-        if (!node.Childrens.ContainsKey(element[index]))
-        {
-            return false;
-        }
-
-        return this.Contains(index + 1, element, node.Childrens[element[index]]);
-    }
-
-    private bool Remove(int index, string element, Node node)
-    {
-        if (index == element.Length & node.IsTerminal)
-        {
-            node.IsTerminal = false;
-            --node.NumberOfPrefixes;
-            return true;
-        }
-
-        if (!node.Childrens.ContainsKey(element[index]))
-        {
-            return false;
-        }
-
-        bool isContained = this.Remove(index + 1, element, node.Childrens[element[index]]);
-        if (isContained)
-        {
-            --node.NumberOfPrefixes;
-        }
-
-        return isContained;
-    }
-
-    private int HowManyStartsWithPrefix(int index, string prefix, Node node)
-    {
-        if (index == prefix.Length)
-        {
-            return node.NumberOfPrefixes;
-        }
-
-        if (!node.Childrens.ContainsKey(prefix[index]))
-        {
-            return 0;
-        }
-
-        return this.HowManyStartsWithPrefix(index + 1, prefix, node.Childrens[prefix[index]]);
+        return node.NumberOfPrefixes;
     }
 
     private class Node
