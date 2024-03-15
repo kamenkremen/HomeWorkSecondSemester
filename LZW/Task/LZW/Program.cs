@@ -1,63 +1,92 @@
-﻿Console.WriteLine("Enter the path to a file:");
-string? path = Console.ReadLine();
+﻿if (args.Length < 2 || args.Length > 3)
+{
+    Console.WriteLine("Incorrect input.");
+    return;
+}
+
+string? path = args[0];
 if (path == null)
 {
     Console.WriteLine("Path cant be null.");
     return;
 }
 
-Console.WriteLine("Do you wish to encode a file or decode a file?(Enter 1 to encode, 2 to decode).");
-var command = 0;
-if (!int.TryParse(Console.ReadLine(), out command) || command > 2 || command < 1)
-{
-    Console.WriteLine("Incorrect input");
-    return;
-}
+var command = args[1];
 var withBWT = 0;
+if (args.Length == 3 || args[2] == "--bwt")
+{
+    withBWT = 1;
+}
+
 switch (command)
 {
-    case 1:
-    Console.WriteLine("Do you wish to encode with BWT without it?(Enter 1 to choose BWT, 2 otherwise).");
-    withBWT = 0;
-    if (!int.TryParse(Console.ReadLine(), out withBWT) || command > 2 || command < 1)
-    {
-        Console.WriteLine("Incorrect input");
-        return;
-    }
-
+    case "--c":
+    Console.WriteLine("Encoding...");
     switch (withBWT)
     {
         case 1:
-        double ratio = LZW.Encode(path, true);
-        Console.WriteLine($"Compress ratio with BWT = {ratio}");
+        try
+        {
+            double ratio = LZW.Encode(path, true);
+            Console.WriteLine($"Compress ratio with BWT = {ratio}");
+        }
+        catch (ArgumentException exception)
+        {
+            Console.WriteLine($"Error:{exception.Message}");
+            return;
+        }
+
         break;
         case 2:
-        double BWTratio = LZW.Encode(path, true);
-        Console.WriteLine($"Compress ratio with BWT = {BWTratio}");
+        try
+        {
+            double BWTratio = LZW.Encode(path, true);
+            Console.WriteLine($"Compress ratio with BWT = {BWTratio}");
+        }
+        catch (ArgumentException exception)
+        {
+            Console.WriteLine($"Error:{exception.Message}");
+            return;
+        }
+
         break;
     }
 
     break;
-    case 2:
-    Console.WriteLine("Was file encoded with BWT?(Enter 1 to choose BWT, 2 otherwise).");
-    withBWT = 0;
-    if (!int.TryParse(Console.ReadLine(), out withBWT) || command > 2 || command < 1)
-    {
-        Console.WriteLine("Incorrect input");
-        return;
-    }
-
+    case "--u":
+    Console.WriteLine("Decoding...");
     switch (withBWT)
     {
         case 1:
-        LZW.Decode(path, true);
-        Console.WriteLine("Decoded!");
+        try
+        {
+            LZW.Decode(path, true);
+            Console.WriteLine("Decoded!");
+        }
+        catch (ArgumentException exception)
+        {
+            Console.WriteLine($"Error:{exception.Message}");
+            return;
+        }
+
         break;
         case 2:
-        LZW.Decode(path, false);
-        Console.WriteLine("Decoded!");
+        try
+        {
+            LZW.Decode(path, false);
+            Console.WriteLine("Decoded!");
+        }
+        catch (ArgumentException exception)
+        {
+            Console.WriteLine($"Error:{exception.Message}");
+            return;
+        }
+
         break;
     }
 
     break;
+    default:
+    Console.WriteLine("Incorrect input.");
+    return;
 }

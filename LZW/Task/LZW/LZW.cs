@@ -92,8 +92,10 @@ public class LZW
 
         var currentNumber = 256;
         var buffer = new List<byte>();
-        var currentPhrase = new List<byte>();
-        currentPhrase.Add(file[0]);
+        var currentPhrase = new List<byte>
+        {
+            file[0],
+        };
         var newPhrase = new List<byte>(currentPhrase);
         var coded = new EncodeByteStorage();
         for (int i = 0; i < file.Length; ++i)
