@@ -13,14 +13,14 @@ if (path == null)
 
 var command = args[1];
 var withBWT = 0;
-if (args.Length == 3 || args[2] == "--bwt")
+if (args.Length == 3 || args[2] == "-bwt")
 {
     withBWT = 1;
 }
 
 switch (command)
 {
-    case "--c":
+    case "-c":
     Console.WriteLine("Encoding...");
     switch (withBWT)
     {
@@ -53,7 +53,7 @@ switch (command)
     }
 
     break;
-    case "--u":
+    case "-u":
     Console.WriteLine("Decoding...");
     switch (withBWT)
     {
