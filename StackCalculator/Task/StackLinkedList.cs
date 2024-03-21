@@ -27,7 +27,7 @@ public class StackLinkedList : IStack
     /// <inheritdoc/>
     public float Pop()
     {
-        if (this.stack.Count == 0)
+        if (this.IsEmpty)
         {
             throw new IndexOutOfRangeException();
         }
