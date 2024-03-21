@@ -13,6 +13,9 @@ public class StackLinkedList : IStack
     private LinkedList<float> stack = new ();
 
     /// <inheritdoc/>
+    public bool IsEmpty { get => this.stack.Count == 0; }
+
+    /// <inheritdoc/>
     public int Size { get => this.stack.Count; }
 
     /// <inheritdoc/>

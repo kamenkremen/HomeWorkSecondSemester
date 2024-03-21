@@ -1,3 +1,5 @@
+using System.Dynamic;
+
 namespace StackCalculator;
 
 /// <summary>
@@ -6,9 +8,14 @@ namespace StackCalculator;
 public interface IStack
 {
     /// <summary>
-    /// Gets a value indicating whether the stack is empty.
+    /// Gets a number representing amount of elements in stack.
     /// </summary>
     int Size { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the stack is empty.
+    /// </summary>
+    bool IsEmpty { get; }
 
     /// <summary>
     /// Returns and remove top element from stack.
