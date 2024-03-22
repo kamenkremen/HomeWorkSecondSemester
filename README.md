@@ -1,1 +1,1 @@
-https://github.com/OWNER/REPOSITORY/actions/workflows/WORKFLOW-FILE/badge.svg
+https://github.com/kamenkremen/HomeWorkSecondSemester/actions/workflows/CI.yml/badge.svg
