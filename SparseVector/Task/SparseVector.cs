@@ -21,7 +21,7 @@ public class SparseVector
 {
     private readonly int size = 0;
 
-    private SortedDictionary<int, int> vector = new ();
+    private Dictionary<int, int> vector = new ();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SparseVector"/> class.
@@ -45,6 +45,35 @@ public class SparseVector
     /// <summary>
     /// Initializes a new instance of the <see cref="SparseVector"/> class.
     /// </summary>
+    /// <param name="vector">List, that contains pairs of (index, number) that is going to be contained in sparse vector.</param>
+    /// <param name="size">Size of the sparse vector.</param>
+    public SparseVector(List<(int, int)> vector, int size)
+    {
+        this.size = size;
+        foreach (var element in vector)
+        {
+            if (element.Item1 >= size)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            if (element.Item2 == 0)
+            {
+                continue;
+            }
+
+            if (this.vector.ContainsKey(element.Item1))
+            {
+                throw new ArgumentException("Initializer vector contained same index more than once.");
+            }
+
+            this.vector.Add(element.Item1, element.Item2);
+        }
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SparseVector"/> class.
+    /// </summary>
     /// <param name="givenVector">Vector with numbers that is going to be added to sparse vector.</param>
     /// <param name="size">Size of the vector.</param>
     /// <exception cref="IndexOutOfRangeException">Being thrown if given vector`s size is bigger than size of sparse vector. </exception>
@@ -57,19 +86,12 @@ public class SparseVector
 
         this.size = size;
         for (int i = 0; i < givenVector.Count; i++) {
-            if (this.vector.ContainsKey(i))
+            if (givenVector[i] == 0)
             {
-                if (givenVector[i] == 0)
-                {
-                    this.vector.Remove(i);
-                }
+                continue;
+            }
 
-                this.vector[i] = givenVector[i];
-            }
-            else if (givenVector[i] != 0)
-            {
-                this.vector.Add(i, givenVector[i]);
-            }
+            this.vector.Add(i, givenVector[i]);
         }
     }
 

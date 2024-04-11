@@ -204,4 +204,47 @@ public class Tests
         var third = new SparseVector(first);
         Assert.That(third.Subtract(second).IsNull);
     }
+
+    [Test]
+    public void TestInitializeWithListWithIndexes()
+    {
+        SparseVector first = new (5);
+        var indexesList = new List<(int, int)> ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)]);
+        SparseVector second = new (indexesList, 5);
+        for (int i = 0; i < 5; i++) 
+        {
+            first[i] = i + 1;
+        }
+        Assert.That(first.Subtract(second).IsNull);
+    }
+
+    [Test]
+    public void TestInitializeWithListWithIndexesShouldThrowArgumentException()
+    {
+        var indexesList = new List<(int, int)> ([(0, 1), (1, 2), (1, 3), (4, 4), (4, 5)]);
+        try
+        {
+            SparseVector second = new (indexesList, 5);
+        }
+        catch (ArgumentException)
+        {
+            Assert.Pass();
+        }
+        Assert.Fail();
+    }
+
+    [Test]
+    public void TestInitializeWithListWithIndexesShouldThrowIndexOutOfRangeException()
+    {
+        var indexesList = new List<(int, int)> ([(1, 1), (7, 2), (3, 3), (4, 4), (5, 5)]);
+        try
+        {
+            SparseVector second = new (indexesList, 5);
+        }
+        catch (IndexOutOfRangeException)
+        {
+            Assert.Pass();
+        }
+        Assert.Fail();
+    }
 }
