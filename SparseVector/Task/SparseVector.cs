@@ -85,7 +85,8 @@ public class SparseVector
         }
 
         this.size = size;
-        for (int i = 0; i < givenVector.Count; i++) {
+        for (int i = 0; i < givenVector.Count; i++)
+        {
             if (givenVector[i] == 0)
             {
                 continue;
