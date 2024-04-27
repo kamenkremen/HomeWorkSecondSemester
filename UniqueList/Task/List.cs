@@ -3,8 +3,8 @@ namespace Lists;
 /// <summary>
 /// List, container for elements.
 /// </summary>
-/// <typeparam name="TData">Type of the data in list.</typeparam>
-public class List<TData>
+/// <typeparam name="T">Type of the data in list.</typeparam>
+public class List<T>
 {
     private ListElement? first = default(ListElement);
 
@@ -23,7 +23,7 @@ public class List<TData>
     /// </summary>
     /// <param name="index">Index of the element in list.</param>
     /// <returns>Value contained by node by index.</returns>
-    public TData this[int index]
+    public T this[int index]
     {
         get => this.GetValue(index);
         set => this.SetValue(index, value);
@@ -35,7 +35,7 @@ public class List<TData>
     /// <param name="index">Index of the element in list.</param>
     /// <returns>Value contained by node by index.</returns>
     /// <exception cref="IndexOutOfRangeException">Exception that indicates that index is bigger than list size.</exception>
-    public TData GetValue(int index)
+    public T GetValue(int index)
     {
         if (index >= this.Size)
         {
@@ -56,12 +56,12 @@ public class List<TData>
     /// </summary>
     /// <param name="value">Value, that is going to be founded.</param>
     /// <returns>Index of the value or -1 if value is not contained in the list.</returns>
-    public int Find(TData value)
+    public int Find(T value)
     {
         var current = this.first;
         for (int i = 0; i < this.Size; ++i)
         {
-            if (EqualityComparer<TData>.Default.Equals(value, current!.Value))
+            if (EqualityComparer<T>.Default.Equals(value, current!.Value))
             {
                 return i;
             }
@@ -78,7 +78,7 @@ public class List<TData>
     /// <param name="index">Index of the element in list.</param>
     /// <param name="value">Value, that is going to be setted.</param>
     /// <exception cref="IndexOutOfRangeException">Exception that indicates that index is bigger than list size..</exception>
-    public virtual void SetValue(int index, TData value)
+    public virtual void SetValue(int index, T value)
     {
         if (index >= this.Size)
         {
@@ -98,7 +98,7 @@ public class List<TData>
     /// Adds value to the end of list.
     /// </summary>
     /// <param name="value">Value that is going to be added to the list.</param>
-    public virtual void Add(TData value)
+    public virtual void Add(T value)
     {
         if (this.Size == 0)
         {
@@ -150,7 +150,7 @@ public class List<TData>
     /// </summary>
     /// <param name="value">Value by which element is going to be removed.</param>
     /// <exception cref="ValueNotInListException">Exception that throws if value is not in list.</exception>
-    public void RemoveByValue(TData value)
+    public void RemoveByValue(T value)
     {
         int index = this.Find(value);
         if (index == -1)
@@ -161,9 +161,9 @@ public class List<TData>
         this.Remove(index);
     }
 
-    private class ListElement(TData value)
+    private class ListElement(T value)
     {
-        public TData Value { get; set; } = value;
+        public T Value { get; set; } = value;
 
         public ListElement? Next { get; set; }
     }
