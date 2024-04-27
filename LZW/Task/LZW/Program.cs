@@ -24,7 +24,7 @@ else if (args.Length == 3 && args[2] == "-compare")
 
 if (withBWT == 2 && command == "-u")
 {
-    Console.WriteLine("Can`t compare while encoding, choose with bwt or without it.");
+    Console.WriteLine("Can`t compare while decoding, choose with bwt or without it.");
     return;
 }
 
