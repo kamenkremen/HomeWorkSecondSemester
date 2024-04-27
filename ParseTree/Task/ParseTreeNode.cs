@@ -26,7 +26,8 @@ public interface IParseTreeNode
     public double CalculateSubTree();
 
     /// <summary>
-    /// Prints the subtree.
+    /// Returns the subtree as a string.
     /// </summary>
-    public void PrintSubTree();
+    /// <returns>Subtree as a string.</returns>
+    public string PrintSubTree();
 }

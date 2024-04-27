@@ -59,11 +59,9 @@ public class OperationNode(char operaion): IParseTreeNode
     }
 
     /// <inheritdoc/>
-    public void PrintSubTree()
+    public string PrintSubTree()
     {
-        this.LeftChild?.PrintSubTree();
-        Console.Write($"{this.Operaion} ");
-        this.RightChild?.PrintSubTree();
+        return this.LeftChild?.PrintSubTree() + $"{this.Operaion} " + this.RightChild?.PrintSubTree();
     }
 
     private double CalculateLeftChild()

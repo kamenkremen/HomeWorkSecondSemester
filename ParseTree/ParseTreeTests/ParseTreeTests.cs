@@ -72,12 +72,12 @@ public class Tests
     }
 
     [Test]
-    public void TestPrintTreeShouldThrowArgumentNullException()
+    public void TestGetTreeShouldThrowArgumentNullException()
     {
         var tree = new ParseTree.ParseTree();
         try
         {
-            tree.PrintTree();
+            tree.GetTree();
         }
         catch (ArgumentNullException)
         {
@@ -87,17 +87,10 @@ public class Tests
     }
 
     [Test]
-    public void TestCalculateTreeShouldThrowArgumentNullException()
+    public void TestGetTree()
     {
         var tree = new ParseTree.ParseTree();
-        try
-        {
-            tree.CalculateTree();
-        }
-        catch (ArgumentNullException)
-        {
-            Assert.Pass();
-        }
-        Assert.Fail();
+        tree.BuildTree("+ * 2 3 5");
+        Assert.That(tree.GetTree(), Is.EqualTo("2 * 3 + 5 "));
     }
 }

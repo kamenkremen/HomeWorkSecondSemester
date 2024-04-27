@@ -34,7 +34,7 @@ catch (DivideByZeroException)
 
 try
 {
-    tree.PrintTree();
+    Console.WriteLine(tree.GetTree());
     Console.WriteLine($"= {tree.CalculateTree()}");
 }
 catch (ArgumentNullException)

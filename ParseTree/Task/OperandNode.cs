@@ -29,5 +29,5 @@ public class OperandNode(double operand): IParseTreeNode
     public double CalculateSubTree() => this.Operand;
 
     /// <inheritdoc/>
-    public void PrintSubTree() => Console.Write($"{this.Operand} ");
+    public string PrintSubTree() => $"{this.Operand} ";
 }

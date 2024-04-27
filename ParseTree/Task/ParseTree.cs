@@ -37,17 +37,18 @@ public class ParseTree
     }
 
     /// <summary>
-    /// Prints expression in tree.
+    /// Gets expression in tree in string.
     /// </summary>
+    /// <returns>Expression in tree as a string.</returns>
     /// <exception cref="ArgumentNullException">Throws if there is no expression in tree.</exception>
-    public void PrintTree()
+    public string GetTree()
     {
         if (this.root == null)
         {
             throw new ArgumentNullException("Tree can`t be empty.");
         }
 
-        this.root.PrintSubTree();
+        return this.root.PrintSubTree();
     }
 
     /// <summary>
