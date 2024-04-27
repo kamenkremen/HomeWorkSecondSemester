@@ -155,7 +155,7 @@ public class List<TData>
         int index = this.Find(value);
         if (index == -1)
         {
-            throw new RemovingNotExistingElementException(nameof(value));
+            throw new NotExistingElementException(nameof(value));
         }
 
         this.Remove(index);

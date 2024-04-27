@@ -15,7 +15,7 @@ public class UniqueList<TData> : List<TData>
     {
         if (this.Find(value) != -1)
         {
-            throw new AddingOrSettingExistingValueException(nameof(value));
+            throw new ExistingValueException(nameof(value));
         }
 
         base.Add(value);
@@ -31,7 +31,7 @@ public class UniqueList<TData> : List<TData>
     {
         if (this.Find(value) != -1)
         {
-            throw new AddingOrSettingExistingValueException(nameof(value));
+            throw new ExistingValueException(nameof(value));
         }
 
         base.SetValue(index, value);

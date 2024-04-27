@@ -128,7 +128,7 @@ public class Tests
         {
             list.RemoveByValue(9);
         }
-        catch (RemovingNotExistingElementException)
+        catch (NotExistingElementException)
         {
             Assert.Pass();
         }
@@ -169,7 +169,7 @@ public class Tests
         {
             list.Add(2);
         }
-        catch (AddingOrSettingExistingValueException)
+        catch (ExistingValueException)
         {
             Assert.Pass();
         }
@@ -190,7 +190,7 @@ public class Tests
         {
             list[3] = 2;
         }
-        catch (AddingOrSettingExistingValueException)
+        catch (ExistingValueException)
         {
             Assert.Pass();
         }
