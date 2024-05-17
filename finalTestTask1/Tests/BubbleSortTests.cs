@@ -38,6 +38,34 @@ public class BubbleSortTests
         }
     }
 
+    public class IntComparer : IComparer<int>
+    {
+        public int Compare(int first, int second)
+        {
+            if (first > second)
+            {
+                return -1;
+            }
+
+            if (second > first)
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+    }
+
+    [Test]
+    public void BubbleSortStandartIntComparerShouldSort1()
+    {
+        var list = new List<int> {5, 2, 4, 1, 2};
+        var comparer = new IntComparer();
+        var sortedByBubbleSortList = BubbleSort.Sort<int>(list, comparer);
+        list.Sort(comparer);
+        Assert.That(list, Is.EqualTo(sortedByBubbleSortList));
+    }
+
     [Test]
     public void BubbleSortAStringComparerShouldSort1()
     {
