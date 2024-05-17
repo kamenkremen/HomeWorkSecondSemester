@@ -14,6 +14,7 @@
 
 namespace Tests;
 using BubbleSort;
+using System.Collections;
 public class BubbleSortTests
 {
     public class AStringComparer : IComparer<string>
@@ -72,6 +73,16 @@ public class BubbleSortTests
 
     [Test]
     public void BubbleSortStandartIntComparerShouldSort1()
+    {
+        var list = new List<int> {5, 5, 5, 5, 5};
+        var comparer = new IntComparer();
+        var sortedByBubbleSortList = BubbleSort.Sort<int>(list, comparer);
+        list.Sort(comparer);
+        Assert.That(list, Is.EqualTo(sortedByBubbleSortList));
+    }
+
+    [Test]
+    public void BubbleSortStandartIntComparerShouldSort2()
     {
         var list = new List<int> {5, 2, 4, 1, 2};
         var comparer = new IntComparer();
