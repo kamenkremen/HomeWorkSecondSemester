@@ -1,6 +1,7 @@
 // <copyright file="BubbleSort.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
+namespace BubbleSort;
 
 /// <summary>
 /// Class that contains bubble sort function.

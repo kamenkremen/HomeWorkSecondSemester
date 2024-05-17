@@ -1,8 +1,7 @@
 namespace Tests;
-
+using BubbleSort;
 public class BubbleSortTests
 {
-
     public class AStringComparer : IComparer<string>
     {
         public int Compare(string first, string second)
@@ -11,7 +10,7 @@ public class BubbleSortTests
             int countSecond = 0;
             foreach (var symbol in first)
             {
-                if (symbol == "a" || symbol == "A")
+                if (symbol == 'a' || symbol == 'A')
                 {
                     ++countFirst;
                 }
@@ -19,23 +18,44 @@ public class BubbleSortTests
             
             foreach (var symbol in second)
             {
-                if (symbol == "a" || symbol != "A")
+                if (symbol == 'a' || symbol != 'A')
                 {
                     ++countSecond;
                 }
             }
 
-            return IComparer<int>.Default(countFirst, countSecond);
+            if (countFirst > countSecond)
+            {
+                return 1;
+            }
+
+            if (countSecond > countFirst)
+            {
+                return -1;
+            }
+
+            return 0;
         }
     }
 
-    [TestCase(new List<string>("aaaaaa", "bbbbb", "ababcsbacbbbb", "AAAAAAAAAAAAAA"), new List<string>("bvncn", "zxcbzxmncb", "z;lxjclxcjlzx"))];
-    public void BubbleSortAStringComparerShouldSort(params List<string> strings)
+    [Test]
+    public void BubbleSortAStringComparerShouldSort1()
     {
-        new comparer = new AStringComparer();
-        new sortedByBubbleSortList = BubbleSort.Sort<string>(strings, comparer);
+        var strings = new List<string>() {"aaaaaa", "bbbbb", "ababcsbacbbbb", "AAAAAAAAAAAAAA"};
+        var comparer = new AStringComparer();
+        var sortedByBubbleSortList = BubbleSort.Sort<string>(strings, comparer);
         strings.Sort(comparer);
-        Assert.That.IsEqual(strings, sortedByBubbleSortList);
+        Assert.That(strings, Is.EqualTo(sortedByBubbleSortList));
+    }
+
+    [Test]
+    public void BubbleSortAStringComparerShouldSort2()
+    {
+        var strings = new List<string>() {"bvncn", "zxcbzxmncb", "z;lxjclxcjlzx"};
+        var comparer = new AStringComparer();
+        var sortedByBubbleSortList = BubbleSort.Sort<string>(strings, comparer);
+        strings.Sort(comparer);
+        Assert.That(strings, Is.EqualTo(sortedByBubbleSortList));
     }
 
 }
